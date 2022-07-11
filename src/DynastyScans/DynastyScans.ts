@@ -95,14 +95,13 @@ export class DynastyScans extends Source {
         let lastChapterNumber = 0
         let chapterNumbers = []
         for(let chapter of chapters) {
-            if(chapter.hasOwnProperty('header')) {
+            if(chapter.hasOwnProperty('header') && chapter.header !== null) {
               let volumeMatch = chapter.header.match(volumeRegexp)
 
               if(volumeMatch) {
                 currentVolume = Number(volumeMatch[1])
               }
-            }
-            if(chapter.hasOwnProperty('title')) {
+            } else if(chapter.hasOwnProperty('title')) {
                 let lastUpdated = new Date(chapter.released_on)
                 let group: string | undefined = undefined
                 for(let tag of chapter.tags) {
