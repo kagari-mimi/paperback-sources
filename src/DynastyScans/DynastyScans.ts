@@ -114,7 +114,7 @@ export class DynastyScans extends Source {
                   }
                 } else {
                   if(lastChapterNumber == 0) {
-                    chapterNumber = 1
+                    chapterNumber = 0
                   } else {
                     chapterNumber = this.getNextChapterNumber(lastChapterNumber)
                   }
