@@ -95,11 +95,15 @@ export class DynastyScans extends Source {
         let lastChapterNumber = 0
         let chapterNumbers = []
         for(let chapter of chapters) {
-            if(chapter.hasOwnProperty('header') && chapter.header !== null) {
-              let volumeMatch = chapter.header.match(volumeRegexp)
+            if(chapter.hasOwnProperty('header')) {
+              if(chapter.header !== null) {
+                let volumeMatch = chapter.header.match(volumeRegexp)
 
-              if(volumeMatch) {
-                currentVolume = Number(volumeMatch[1])
+                if(volumeMatch) {
+                  currentVolume = Number(volumeMatch[1])
+                }
+              } else {
+                currentVolume = undefined
               }
             } else if(chapter.hasOwnProperty('title')) {
                 let lastUpdated = new Date(chapter.released_on)
@@ -407,7 +411,7 @@ export class DynastyScans extends Source {
 }
 
 export const DynastyScansInfo: SourceInfo = {
-    version: '1.3.3',
+    version: '1.3.3.1657524368',
     name: 'Dynasty Scans',
     icon: 'icon.jpg',
     author: 'JimIsWayTooEpic',
