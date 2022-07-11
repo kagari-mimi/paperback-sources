@@ -408,12 +408,12 @@ export class DynastyScans extends Source {
 }
 
 export const DynastyScansInfo: SourceInfo = {
-    version: '1.1.1',
+    version: '1.3.3',
     name: 'Dynasty Scans',
     icon: 'icon.jpg',
     author: 'JimIsWayTooEpic',
     authorWebsite: 'https://kagari-mimi.github.io/paperback-sources/experimental/',
-    description: 'Source for Dynasty Scans. Created by JimIsWayTooEpic.',
+    description: 'Source for Dynasty Scans. Created by JimIsWayTooEpic, with improvements from Kagari Mimi.',
     contentRating: ContentRating.ADULT,
     websiteBaseURL: WEBSITE_URL,
     language: "English"
