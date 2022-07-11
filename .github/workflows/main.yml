@@ -1,9 +1,10 @@
 name: Bundle and Publish Sources
-on: 
+on:
   push:
     branches:
       - '**'
       - '!main'
+
 jobs:
   build:
     name: Bundle and Publish Sources
@@ -11,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x] 
+        node-version: [14.x]
 
     steps:
       - name: Checkout Branch
@@ -21,7 +22,7 @@ jobs:
         uses: actions/setup-node@v2.1.2
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Extract branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -31,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
         continue-on-error: true
         with:
-          ref: master
+          ref: gh-pages
           path: bundles
 
       - run: npm install
@@ -40,5 +41,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          branch: master
+          branch: gh-pages
           folder: bundles
