@@ -108,11 +108,15 @@ export class DynastyScans extends Source {
 
                 if(chapterNumberMatch !== null) {
                   chapterNumber = Number(chapterNumberMatch[1])
+
+                  if(chapterNumbers.indexOf(chapterNumber) !== -1) {
+                    chapterNumber = this.getNextChapterNumber(lastChapterNumber)
+                  }
                 } else {
                   if(lastChapterNumber == 0) {
                     chapterNumber = 1
                   } else {
-                    chapterNumber = lastChapterNumber + 0.1
+                    chapterNumber = this.getNextChapterNumber(lastChapterNumber)
                   }
                 }
 
@@ -130,6 +134,16 @@ export class DynastyScans extends Source {
             }
         }
         return chapterList
+    }
+    getNextChapterNumber(lastChapterNumber: number): number {
+      let chapterNumber = String(lastChapterNumber)
+
+      if(chapterNumber.includes(".")) {
+        let chapterNumberParts = chapterNumber.split(".")
+        return Number(chapterNumberParts[0] + "." + String(Number(chapterNumberParts[1]) + 1))
+      } else {
+        return Number(chapterNumber + ".1")
+      }
     }
     async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
         let request = createRequestObject({
