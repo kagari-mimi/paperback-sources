@@ -21,7 +21,7 @@ const REQUEST_RETRIES = 1
 const POST_REQUEST_RETRIES = 3
 export class DynastyScans extends Source {
     baseURL = WEBSITE_URL
-    GITHUB_REPOSITORY = "https://github.com/phiefferj24/paperback-sources"
+    GITHUB_REPOSITORY = "https://github.com/karagi-mimi/paperback-sources"
     requestManager = createRequestManager({
         requestsPerSecond: 5,
         requestTimeout: 20000
@@ -372,7 +372,7 @@ export const DynastyScansInfo: SourceInfo = {
     name: 'Dynasty Scans',
     icon: 'icon.jpg',
     author: 'JimIsWayTooEpic',
-    authorWebsite: 'https://phiefferj24.github.io/paperback-sources/master/',
+    authorWebsite: 'https://kagari-mimi.github.io/paperback-sources/experimental/',
     description: 'Source for Dynasty Scans. Created by JimIsWayTooEpic.',
     contentRating: ContentRating.ADULT,
     websiteBaseURL: WEBSITE_URL,
