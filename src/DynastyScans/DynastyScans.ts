@@ -88,7 +88,10 @@ export class DynastyScans extends Source {
         const json = JSON.parse(data)
         let chapterList: Chapter[] = []
         const chapters = json.taggings
-        let chapterIterator = 1
+        const chapterTitleRegexp = /^Chapter [\d\.]+(: )?/
+        const chapterNumberMatchRegexp = /Chapter ([\d\.]+)/
+        let lastChapterNumber = 0
+        let chapterNumbers = []
         for(let chapter of chapters) {
             if(chapter.hasOwnProperty('title')) {
                 let lastUpdated = new Date(chapter.released_on)
@@ -98,20 +101,33 @@ export class DynastyScans extends Source {
                         group = tag.name
                     }
                 }
-                let title = chapter.title
+                let title = chapter.title.replace(chapterTitleRegexp, "")
                 let permalink = String(chapter.permalink)
-                let chapterNumber = Number(permalink.substring(permalink.lastIndexOf("ch")+2).replace("_", "."))
+                let chapterNumberMatch = chapter.title.match(chapterNumberMatchRegexp)
+                let chapterNumber = null
+
+                if(chapterNumberMatch !== null) {
+                  chapterNumber = Number(chapterNumberMatch[1])
+                } else {
+                  if(lastChapterNumber == 0) {
+                    chapterNumber = 1
+                  } else {
+                    chapterNumber = lastChapterNumber + 0.1
+                  }
+                }
+
+                chapterNumbers.push(chapterNumber)
                 chapterList.push(createChapter({
                     id: permalink,
                     mangaId: mangaId,
-                    chapNum: Number.isNaN(chapterNumber) ? chapterIterator : chapterNumber,
+                    chapNum: chapterNumber,
                     langCode: LanguageCode.ENGLISH,
-                    name: title,
+                    name: title === "" ? null : title,
                     time: lastUpdated,
                     group: group
                 }))
+                lastChapterNumber = chapterNumber
             }
-            chapterIterator++
         }
         return chapterList
     }
