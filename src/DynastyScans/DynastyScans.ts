@@ -86,13 +86,22 @@ export class DynastyScans extends Source {
         })
         let data = (await this.requestManager.schedule(request, REQUEST_RETRIES)).data
         const json = JSON.parse(data)
+        const volumeRegexp = /^Volume ([\d]+)/
+        let currentVolume = undefined
         let chapterList: Chapter[] = []
         const chapters = json.taggings
         const chapterTitleRegexp = /^Chapter [\d\.]+(: )?/
-        const chapterNumberMatchRegexp = /Chapter ([\d\.]+)/
+        const chapterNumberMatchRegexp = /^Chapter ([\d\.]+)/
         let lastChapterNumber = 0
         let chapterNumbers = []
         for(let chapter of chapters) {
+            if(chapter.hasOwnProperty('header')) {
+              let volumeMatch = chapter.header.match(volumeRegexp)
+
+              if(volumeMatch) {
+                currentVolume = Number(volumeMatch[1])
+              }
+            }
             if(chapter.hasOwnProperty('title')) {
                 let lastUpdated = new Date(chapter.released_on)
                 let group: string | undefined = undefined
@@ -125,6 +134,7 @@ export class DynastyScans extends Source {
                     id: permalink,
                     mangaId: mangaId,
                     chapNum: chapterNumber,
+                    volume: currentVolume,
                     langCode: LanguageCode.ENGLISH,
                     name: title === "" ? null : title,
                     time: lastUpdated,
